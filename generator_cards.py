@@ -1,15 +1,15 @@
 def main():   
     name = input('Enter your full name: ')
     # check if name is empty or contains only whitespase
-    if len(name) == 0 or name.isspace():
-        print('Error: Name cannot be emty or contain only whitespace')
+    if not name.strip():
+        print('Error: Name cannot be empty or contain only whitespace')
         return
     else:
         name = name.strip().title()
     
     job = input('Enter your job position: ')
-    # check if job is empty or contains only whitespase    
-    if len(job) == 0 or job.isspace():
+    # check if job is empty or contains only whitespace    
+    if not job.strip():
         print('Error: Job position cannot be empty or contain only whitespace')
         return
     else:
