@@ -1,3 +1,7 @@
+
+from unicodedata import name
+
+
 def main():   
     name = input('Enter your full name: ')
     # check if name is empty or contains only whitespase
@@ -23,6 +27,8 @@ def main():
 
     # using print_card function to print the card
     print_card(name, job)
+    print_num_a(name)
+
 
 
 def print_card(name, job):
@@ -30,6 +36,8 @@ def print_card(name, job):
     print(f'| {name:<23} |' + '\n' + f'| {job:<23} |')
     print('-------------------------')
 
+def print_num_a(a:int)-> None:
+    print(f"{a.count('a') + a.count('A')}")
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+main()
