@@ -1,15 +1,19 @@
+
+from unicodedata import name
+
+
 def main():   
     name = input('Enter your full name: ')
     # check if name is empty or contains only whitespase
-    if len(name) == 0 or name.isspace():
-        print('Error: Name cannot be emty or contain only whitespace')
+    if not name.strip():
+        print('Error: Name cannot be empty or contain only whitespace')
         return
     else:
         name = name.strip().title()
     
     job = input('Enter your job position: ')
-    # check if job is empty or contains only whitespase    
-    if len(job) == 0 or job.isspace():
+    # check if job is empty or contains only whitespace    
+    if not job.strip():
         print('Error: Job position cannot be empty or contain only whitespace')
         return
     else:
@@ -23,6 +27,8 @@ def main():
 
     # using print_card function to print the card
     print_card(name, job)
+    print_num_a(name)
+
 
 
 def print_card(name, job):
@@ -30,6 +36,8 @@ def print_card(name, job):
     print(f'| {name:<23} |' + '\n' + f'| {job:<23} |')
     print('-------------------------')
 
+def print_num_a(a:int)-> None:
+    print(f"{a.count('a') + a.count('A')}")
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+main()
