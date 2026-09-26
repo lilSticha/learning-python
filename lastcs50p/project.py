@@ -5,6 +5,7 @@ import json
 import sys
 
 load_dotenv()
+
 api_key = os.getenv("COIN_API_KEY")
 
 
@@ -13,26 +14,33 @@ def main():
     print("CHOOSE EXCHANGE:")
     print("1. Coin")
     print("2. Binance")
+    print("3. Exit")
     choise = input("Enter your choise:")
     if choise.strip() == '1' or choise.strip().upper() == "COIN":
-        print("POTYGNO")
-    #elif
-    #print_list(get_currency_list())
-    #while True:
-    #    currency = input("Enter currency what you want to check:")
-    #    cur_list = get_currency_list()
-    #    if currency in cur_list:
-    #        print(f"{get_currecny_price(currency)}")
-    #        break
-    #    else:
-    #        print("Currency are incorect, try agin")
-
-
-    #bitcoin_list = get_curence_binance_list()
-    #print_list(bitcoin_list)
-    #in_coin = input("Enter the valid conit to get curent price: ").strip().upper()
-    #if in_coin in bitcoin_list:
-     #   print(get_curent_binance_price(in_coin))
+        # while True:
+        #     cur_list = get_currency_list()
+        #     print_list(cur_list)
+        #     currency = input("Enter currency what you want to check:").strip().upper()
+        #     if currency in cur_list:
+        #         print(f"{get_currecny_price(currency)}")
+        #         break
+        #     else:
+        #         print("Currency are incorect, try agin")
+        print("ok")
+    elif choise.strip() == '2' or choise.strip().upper() == "BINANCE":
+        while True:
+            bitcoin_list = get_curence_binance_list()
+            print_list(bitcoin_list)
+            in_coin = input("Enter the valid conit to get curent price: ").strip().upper()
+            if in_coin in bitcoin_list:
+                print(get_curent_binance_price(in_coin))
+                break
+            else:
+                print("Currency are incorect, try agin")
+    elif choise == '1':
+        sys.exit("Exit")
+    else:
+        sys.exit("Exit")
 
 
 
@@ -41,9 +49,9 @@ def get_currency_list():
     url = "https://rest.coincap.io/v3/assets"
     try:
         responce = requests.get(url + "?apiKey=" + api_key).json()
-        responce.raise_for_status()
+       # responce.raise_for_status()
        # responce_json = responce.json()
-        for coin in responce['data']:
+        for coin in responce['data'][0]:
             coins.append(f"{coin['symbol']}")# - {coin['name']}
         return coins
     except requests.RequestException as e:
@@ -56,7 +64,7 @@ def print_list(list):
 def get_currecny_price(cur) -> float:
     url = "https://rest.coincap.io/v3/price/bysymbol/"
     try:
-        responce = request.get(url+cur+"?apiKey="+api_key).json() #.json()
+        responce = requests.get(url+cur+"?apiKey="+api_key).json() #.json()
         #responce_json = responce.json()
         price = float(responce['data'][0]) # responce_json
         return price
