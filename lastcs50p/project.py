@@ -29,11 +29,11 @@ def main():
         print("ok")
     elif choise.strip() == '2' or choise.strip().upper() == "BINANCE":
         while True:
-            bitcoin_list = get_curence_binance_list()
+            bitcoin_list = serch_usdt_pair(get_curence_binance_list())
             print_list(bitcoin_list)
             in_coin = input("Enter the valid conit to get curent price: ").strip().upper()
             if in_coin in bitcoin_list:
-                print(get_curent_binance_price(in_coin))
+                print(format_price(get_curent_binance_price(in_coin)))
                 break
             else:
                 print("Currency are incorect, try agin")
@@ -77,25 +77,34 @@ def get_curence_binance_list():
     url = "https://api.binance.com/api/v3/exchangeInfo"
     try:
         responce = requests.get(url).json() #.json()
+        return responce
         #responce_json = responce.json()
-        for i in responce['symbols']: #.json
-            if i['quoteAsset'] == "USDT":
-                coins.append(i['baseAsset'])
-        return coins
+    #     for i in responce['symbols']: #.json
+    #         if i['quoteAsset'] == "USDT":
+    #             coins.append(i['baseAsset'])
+    #     return coins
     except requests.RequestException as e:
-        sys.exit(f"Request Error: {e}")
+         sys.exit(f"Request Error: {e}")
+
+def serch_usdt_pair(json:list) -> list:
+    coins = []
+    for i in json['symbols']:
+        if i['symbol'].endswith('USDT'):
+            coins.append(i['symbol'].replace('USDT', ''))
+    return coins
+
 
 def get_curent_binance_price(coin:str):
     url = "https://api.binance.com/api/v3/ticker/price?symbol="
     try:
         responce = requests.get(f"{url}{coin}USDT").json()
-
-        return responce['price']
+        #print(type(responce['price']))
+        return float(responce['price'])
     except requests.RequestException as e:
         sys.exit(f"Request Error: {e}")
 
-
-
+def format_price(price:float) -> float:
+    return f"${price:,.2f}"
 
 if __name__ == "__main__":
     main()
