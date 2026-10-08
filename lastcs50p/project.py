@@ -7,9 +7,9 @@ import sys
 
 load_dotenv()
 
-api_key = os.getenv("COIN_API_KEY")
+api_key_c= os.getenv("COIN_API_KEY")
 #gemini_api_key = os.getenv("GEMINI_API_KEY")
-api_key = os.getenv("OPENAI_API_KEY")
+api_key_o = os.getenv("OPENAI_API_KEY")
 
 def main():
     print("WELCOME TO QUICK PRICE CHEKER")
@@ -20,16 +20,16 @@ def main():
     print("4. Exit")
     choise = input("Enter your choise:")
     if choise.strip() == '1' or choise.strip().upper() == "COIN":
-        #while True:
-        #     cur_list = get_currency_list()
-        #     print_list(cur_list)
-        #     currency = input("Enter currency what you want to check:").strip().upper()
-        #     if currency in cur_list:
-        #         print(f"{get_currecny_price(currency)}")
-        #         break
-        #     else:
-        #         print("Currency are incorect, try agin")
-            print("Api key for Coin is not working, please use Binance or AI recomendation")
+        while True:
+            cur_list = get_currency_list()
+            print_list(cur_list)
+            currency = input("Enter currency what you want to check:").strip().upper()
+            if currency in cur_list:
+                print(f"{get_currecny_price(currency)}")
+                break
+            else:
+                print("Currency are incorect, try agin")
+        #    print("Api key for Coin is not working, please use Binance or AI recomendation")
     elif choise.strip() == '2' or choise.strip().upper() == "BINANCE":
         while True:
             cur_list = serch_usdt_pair(get_curence_binance_list())
@@ -48,10 +48,10 @@ def main():
 2. Binance 
 """))
             if stock_exchange == '1':
-                print("Coin is not working, please choose Binance")
-                # stock_exchange = 'Coin'
-                #list = get_currency_list()
-                # break
+                #print("Coin is not working, please choose Binance")
+                stock_exchange = 'Coin'
+                list = get_currency_list()
+                break
             elif stock_exchange == '2':
                 stock_exchange = 'Binance'
                 list = serch_usdt_pair(get_curence_binance_list())
@@ -81,10 +81,10 @@ def get_currency_list():
     coins = []
     url = "https://rest.coincap.io/v3/assets"
     try:
-        responce = requests.get(url + "?apiKey=" + api_key).json()
-       # responce.raise_for_status()
+        responce = requests.get(url + "?apiKey=" + api_key_c).json()
+      #  responce.raise_for_status()
        # responce_json = responce.json()
-        for coin in responce['data'][0]:
+        for coin in responce['data']:
             coins.append(f"{coin['symbol']}")# - {coin['name']}
         return coins
     except requests.RequestException as e:
@@ -97,7 +97,7 @@ def print_list(list):
 def get_currecny_price(cur) -> float:
     url = "https://rest.coincap.io/v3/price/bysymbol/"
     try:
-        responce = requests.get(url+cur+"?apiKey="+api_key).json() #.json()
+        responce = requests.get(url+cur+"?apiKey="+api_key_c).json() #.json()
         #responce_json = responce.json()
         price = float(responce['data'][0]) # responce_json
         return price
@@ -140,10 +140,10 @@ def format_price(price:float) -> float:
     return f"${price:,.2f}"
 
 def ai_recomendation(exchange:str, price:int, coin_list:list) -> str:
-    if not api_key:
+    if not api_key_o:
         raise ValueError("OPENAI_API_KEY is missing from your .env file.")
 
-    client = OpenAI(api_key=api_key)
+    client = OpenAI(api_key=api_key_o)
     prompt = f"""You are a cryptocurrency research assistant.
     I want to invest in {exchange}. I have {price} dollars to invest.
     Analyze all this coins: {coin_list}.
