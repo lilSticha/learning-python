@@ -20,7 +20,7 @@ def main():
     print("4. Exit")
     choise = input("Enter your choise:")
     if choise.strip() == '1' or choise.strip().upper() == "COIN":
-        # while True:
+        #while True:
         #     cur_list = get_currency_list()
         #     print_list(cur_list)
         #     currency = input("Enter currency what you want to check:").strip().upper()
@@ -29,7 +29,7 @@ def main():
         #         break
         #     else:
         #         print("Currency are incorect, try agin")
-        print("ok")
+            print("Api key for Coin is not working, please use Binance or AI recomendation")
     elif choise.strip() == '2' or choise.strip().upper() == "BINANCE":
         while True:
             cur_list = serch_usdt_pair(get_curence_binance_list())
@@ -45,15 +45,16 @@ def main():
         while True:
             stock_exchange = str(input("""choose your stock exchande from list
 1. Coin
-2. Binance
-            """))
+2. Binance 
+"""))
             if stock_exchange == '1':
-                stock_exchange = 'Coin'
-                list = get_currency_list()
-                break
+                print("Coin is not working, please choose Binance")
+                # stock_exchange = 'Coin'
+                #list = get_currency_list()
+                # break
             elif stock_exchange == '2':
                 stock_exchange = 'Binance'
-                list = get_curence_binance_list()
+                list = serch_usdt_pair(get_curence_binance_list())
                 break
             else:
                 print("Incorect choose, try again enter stockexchange :(")
@@ -147,12 +148,14 @@ def ai_recomendation(exchange:str, price:int, coin_list:list) -> str:
     I want to invest in {exchange}. I have {price} dollars to invest.
     Analyze all this coins: {coin_list}.
 
-    Give three options for long-term consideration and three for short-term
+    Give five options for long-term consideration and three for short-term
     consideration. Follow this format:
     Long-term considerations:
     first coin - explain why (one sentence)
     second coin - explain why (one sentence)
     third coin - explain why (one sentence)
+    fourth coin - explain why (one sentence)
+    fifth coin - explain why (one sentence)
     Short-term considerations:
     first coin - explain why (one sentence)
     second coin - explain why (one sentence)
